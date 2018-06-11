@@ -1,0 +1,119 @@
+{{#section 'welcome'}}
+<strong> {{managerName}}</strong> 
+{{/section}} {{#section 'menu'}}
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" id="lnkLogout" href="javascript:;">
+            <span class="btn btn-large btn-success">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Log out</span>
+        </a>
+    </li>
+</ul>
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" href="/manager/home">
+            <span class="btn btn-large btn-primary">
+                <i class="fa fa-home" aria-hidden="true"></i> Dashboard</span>
+        </a>
+    </li>
+</ul>
+
+{{/section}} {{#section 'sidebar'}}
+<ul id="sideMenu" class="nav nav-tabs nav-stacked">
+    <li class="subMenu open" id="menu">
+        <a> Product Management</a>
+        <ul>
+            <li>
+                <a class="active" href="/manager/update_product">
+                    <i class="icon-chevron-right"></i>Update Product</a>
+                <a class="active" href="/manager/add_product">
+                    <i class="icon-chevron-right"></i>Add Product</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<br/>
+<div class="thumbnail">
+    <a>
+        <img style="width:50%" src="/themes/images/Canon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Nikon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Olympus_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Fujifilm_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Sony_logo.jpg">
+    </a>
+</div>
+{{/section}}
+<form id="frmLogout" method="post" action="/manager/logout"></form>
+<ul class="breadcrumb">
+    <li style="font-size: x-large">
+        <b> Update Product</b>
+    </li>
+</ul>
+<div class="btn-group">
+    <a type="button" class="btn btn-primary" href="/manager/update_product/Canon">Canon</a>
+    <a type="button" class="btn btn-primary" href="/manager/update_product/Nikon">Nikon</a>
+    <a type="button" class="btn btn-primary" href="/manager/update_product/Sony">Sony</a>
+    <a type="button" class="btn btn-primary" href="/manager/update_product/Fujifilm">Fujifilm</a>
+    <a type="button" class="btn btn-primary" href="/manager/update_product/Olympus">Olympus</a>
+</div>
+<hr class="soft" />
+
+<h2 style="text-align: center">Product List</h2>
+
+<div class="table-responsive" style="margin-top:30px">
+    <table class="table table-condensed table-bordered table-secondary table-hover table-striped">
+        <thead style="background-color: rgba(19, 14, 14, 0.822);color: beige">
+            <tr class="text-primary">
+                <th>Product</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <th>{{Ten}}</th>
+                <th>{{Hang}}</th>
+                <th>{{number_format Don_gia_ban}} đ</th>
+                <th>
+                    <a type="button" class="btn btn-danger" href="/manager/edit?id={{Ma_so}}">
+                        <span class="fa fa-pencil"></span>
+                    </a>
+                </th>
+                <th>
+                    <a type="button" class="btn btn-danger" onclick="Showconfirm({{Ma_so}},'{{Hang}}')" >
+                        <span class="fa fa-remove"></span>
+                    </a>
+                </th>
+            </tr>
+            
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    function Showconfirm(Ma_so, Hang)
+    {
+        if (confirm("Do you really want to delete this product ?")) {
+            window.location.href = "/manager/delete?id=" + Ma_so +"&brand="+ Hang ;
+        } 
+    }
+</script>
+<script type="text/javascript" src="/themes/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $('#lnkLogout').on('click', function () {
+        $('#frmLogout').submit();
+    });
+</script>

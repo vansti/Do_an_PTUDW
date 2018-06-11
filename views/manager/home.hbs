@@ -1,0 +1,115 @@
+{{#section 'welcome'}}
+<strong> {{managerName}}</strong> 
+{{/section}} {{#section 'menu'}}
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" id="lnkLogout" href="javascript:;">
+            <span class="btn btn-large btn-success">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Log out</span>
+        </a>
+    </li>
+</ul>
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" href="/manager/home">
+            <span class="btn btn-large btn-primary">
+                <i class="fa fa-home" aria-hidden="true"></i> Dashboard</span>
+        </a>
+    </li>
+</ul>
+
+{{/section}} {{#section 'sidebar'}}
+
+<ul id="sideMenu" class="nav nav-tabs nav-stacked">
+    <li class="subMenu open" id="menu">
+        <a> Product Management</a>
+        <ul>
+            <li>
+                <a class="active" href="/manager/update_product">
+                    <i class="icon-chevron-right"></i>Update Product</a>
+                <a class="active" href="/manager/add_product">
+                    <i class="icon-chevron-right"></i>Add Product</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<br/>
+<div class="thumbnail">
+    <a>
+        <img style="width:50%" src="/themes/images/Canon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Nikon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Olympus_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Fujifilm_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Sony_logo.jpg">
+    </a>
+</div>
+{{/section}}
+<form id="frmLogout" method="post" action="/manager/logout"></form>
+<ul class="breadcrumb">
+    <li style="font-size: x-large">
+        <i class="fa fa-home fa-2x"></i>
+        <b> Dashboard</b>
+    </li>
+</ul>
+<div class="row">
+    <div class="span4" style="text-align: center">
+        <a href="javascript:doProduct();" style="text-decoration: none">
+            <img src="/themes/images/camera.png" onmouseover="this.src='/themes/images/camera-1.png'" onmouseout="this.src='/themes/images/camera.png'">
+        </a>
+        <br>
+        <h3>Product management </h3>
+
+    </div>
+    <div class="span4" style="text-align: center">
+        <a href="javascript:doOrder();" style="text-decoration: none">
+            <img src="/themes/images/order_editor.png" onmouseover="this.src='/themes/images/order_editor-1.png'" onmouseout="this.src='/themes/images/order_editor.png'">
+        </a>
+        <br>
+        <h3>Order management</h3>
+    </div>
+</div>
+
+<script>
+    var menu = document.getElementById("menu");
+
+    function doProduct() {
+        menu.innerHTML = "";
+        menu.innerHTML =
+                            `<a> Product Management</a>
+                            <ul>
+                                <li>
+                                    <a class="active" href="/manager/update_product">
+                                        <i class="icon-chevron-right"></i>Update Product</a>
+                                    <a class="active" href="/manager/add_product">
+                                        <i class="icon-chevron-right"></i>Add Product</a>
+                                </li>
+                            </ul>`
+    }
+
+    function doOrder() {
+        menu.innerHTML = "";
+        menu.innerHTML =
+                            `<a> Order Management</a>
+                            <ul>
+                                <li>
+                                    <a class="active" href="/manager/update_order">
+                                        <i class="icon-chevron-right"></i>Update Order</a>
+                                </li>
+                            </ul>`
+    }
+</script>
+
+<script type="text/javascript" src="/themes/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $('#lnkLogout').on('click', function () {
+        $('#frmLogout').submit();
+    });
+</script>
