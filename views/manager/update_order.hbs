@@ -1,0 +1,145 @@
+{{#section 'welcome'}}
+<strong> {{managerName}}</strong> 
+{{/section}} {{#section 'menu'}}
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" id="lnkLogout" href="javascript:;">
+            <span class="btn btn-large btn-success">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Log out</span>
+        </a>
+    </li>
+</ul>
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" href="/manager/home">
+            <span class="btn btn-large btn-primary">
+                <i class="fa fa-home" aria-hidden="true"></i> Dashboard</span>
+        </a>
+    </li>
+</ul>
+
+{{/section}} {{#section 'sidebar'}}
+<ul id="sideMenu" class="nav nav-tabs nav-stacked">
+    <li class="subMenu open" id="menu">
+        <a> Order Management</a>
+        <ul>
+            <li>
+                <a class="active" href="/manager/update_order">
+                    <i class="icon-chevron-right"></i>Update Order</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<br/>
+<div class="thumbnail">
+    <a>
+        <img style="width:50%" src="/themes/images/Canon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Nikon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Olympus_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Fujifilm_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Sony_logo.jpg">
+    </a>
+</div>
+{{/section}}
+<form id="frmLogout" method="post" action="/manager/logout"></form>
+<ul class="breadcrumb">
+    <li style="font-size: x-large">
+        <i class="fa fa-pencil fa-x"></i>
+        <b> Update Order</b>
+    </li>
+</ul>
+
+<h2 style="text-align: center">Order List</h2>
+
+
+<div class="table-responsive" style="margin-top:30px">
+    <table class="table table-condensed table-bordered table-secondary table-hover table-striped">
+        <thead style="background-color: rgba(19, 14, 14, 0.822);color: beige">
+            <tr class="text-primary">
+                <th>Date</th>
+                <th>Order ID</th>
+                <th>Order's Owner</th>
+                <th>Status</th>
+                <th>New status</th>
+                <th>Update</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each order}}
+            <tr>
+                <th>{{Ngay_dat_hang}}</th>
+                <th>{{Ma_hoa_don}}</th>
+                <th>{{Ten_khach_hang}}</th>
+                <th class="{{Trang_thai}}"></th>
+                <th>
+                    <select class="span2" name="type" id="{{Ma_hoa_don}}">
+                        <option value="">-</option>
+                        <option value="0">chưa giao</option>
+                        <option value="1">đang giao</option>
+                        <option value="2">đã giao</option>
+                    </select>
+                </th>
+                <th> 
+                    <a type="button" class="btn btn-danger" onclick="Showconfirm({{Ma_hoa_don}})" >
+                        <span class="fa fa-pencil"></span>
+                    </a>
+                </th>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var trang_thai0 = document.getElementsByClassName("0");
+    for(var i=0;i<trang_thai0.length;i++)
+    {
+        trang_thai0[i].innerHTML = "chưa giao";
+        trang_thai0[i].style.color = 'red'
+    }
+
+    var trang_thai1 = document.getElementsByClassName("1");
+    for(var i=0;i<trang_thai1.length;i++)
+    {
+        trang_thai1[i].innerHTML = "đang giao";
+        trang_thai1[i].style.color = 'rgb(204, 153, 0)'
+    }
+
+    var trang_thai2 = document.getElementsByClassName("2");
+    for(var i=0;i<trang_thai2.length;i++)
+    {
+        trang_thai2[i].innerHTML = "đã giao";
+        trang_thai2[i].style.color = 'green'
+    }
+    
+
+    function Showconfirm(Ma_hoa_don)
+    {
+        var Ma_hd = document.getElementById(Ma_hoa_don)
+
+        if(Ma_hd.value == "")
+        {
+            alert("Choose new status before update")
+            return;
+        }
+
+        if (confirm("Do you really want to change the status?")) {
+            
+            window.location.href = "/manager/updateOrder?id=" + Ma_hoa_don +"&newstt="+ Ma_hd.value ;
+        } 
+    }
+</script>
+<script type="text/javascript" src="/themes/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $('#lnkLogout').on('click', function () {
+        $('#frmLogout').submit();
+    });
+</script>
