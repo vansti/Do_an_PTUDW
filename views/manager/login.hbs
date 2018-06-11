@@ -1,0 +1,55 @@
+{{#section 'sidebar'}}
+<div class="thumbnail">
+    <a>
+        <img style="width:50%" src="/themes/images/Canon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Nikon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Olympus_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Fujifilm_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Sony_logo.jpg">
+    </a>
+</div>
+{{/section}}
+
+<h3> Login</h3>
+<hr class="soft" />
+
+<div class="row">
+    <div class="span4">
+        <div class="well">
+            <h5>LOGIN TO MANAGER SITE</h5>
+            <br/> Enter your e-mail and password to sign in.
+            <br/>
+            <br/>
+            <form method="post" action="">
+                <div class="control-group">
+                    <label class="control-label" >Email</label>
+                    <div class="controls">
+                        <input class="span3" type="text" name="Email" placeholder="Email">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >Password</label>
+                    <div class="controls">
+                        <input type="password" class="span3" name="Mat_khau" placeholder="Password">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn">Sign in</button>                       
+                    </div>
+                </div>
+                {{#if showError}}
+                    <div class="alert alert-danger"><strong>Error!</strong> {{errorMsg}}</div>
+                {{/if}}
+            </form>
+        </div>
+    </div>
+</div>

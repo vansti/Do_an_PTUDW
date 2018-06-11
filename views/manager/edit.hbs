@@ -1,0 +1,131 @@
+{{#section 'welcome'}}
+<strong> {{managerName}}</strong> 
+{{/section}} {{#section 'menu'}}
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" id="lnkLogout" href="javascript:;">
+            <span class="btn btn-large btn-success">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Log out</span>
+        </a>
+    </li>
+</ul>
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" href="/manager/home">
+            <span class="btn btn-large btn-primary">
+                <i class="fa fa-home" aria-hidden="true"></i> Dashboard</span>
+        </a>
+    </li>
+</ul>
+
+{{/section}} {{#section 'sidebar'}}
+<ul id="sideMenu" class="nav nav-tabs nav-stacked">
+    <li class="subMenu open" id="menu">
+        <a> Product Management</a>
+        <ul>
+            <li>
+                <a class="active" href="/manager/update_product">
+                    <i class="icon-chevron-right"></i>Update Product</a>
+                <a class="active" href="/manager/add_product">
+                    <i class="icon-chevron-right"></i>Add Product</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<br/>
+<div class="thumbnail">
+    <a>
+        <img style="width:50%" src="/themes/images/Canon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Nikon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Olympus_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Fujifilm_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Sony_logo.jpg">
+    </a>
+</div>
+{{/section}}
+<form id="frmLogout" method="post" action="/manager/logout"></form>
+<ul class="breadcrumb">
+    <li style="font-size: x-large">
+        <span class="fa fa-pencil"></span>
+        <b> Edit</b>
+    </li>
+</ul>
+
+<div class="well">
+
+    {{#if check}}
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Success!</strong> Edit successfully.
+    </div>
+    {{else}}
+
+    <form class="form-horizontal" action="" method="post">
+        {{#with product}}
+        <div class="thumbnail" style="height:270px">
+            <a>
+                <img src="/themes/images/products/{{Hinh_anh}}" style="height:270px">
+            </a>
+        </div>
+        <br>
+        <div class="control-group">
+            <label class="control-label">Product ID</label>
+            <div class="controls">
+                <input type="text" id="" name="Ma_so" value="{{Ma_so}}" readonly>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Name</label>
+            <div class="controls">
+                <input type="text" id="" value="{{Ten}}" readonly>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Brand</label>
+            <div class="controls">
+                <input type="text" id="" value="{{Hang}}" readonly>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Type</label>
+            <div class="controls">
+                <input type="text" id="" value="{{Loai}}" readonly>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Price</label>
+            <div class="controls">
+                <input type="number" id="" name="Don_gia_ban" value="{{Don_gia_ban}}">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Description</label>
+            <div class="controls">
+                <textarea name="Mo_ta" cols="26" rows="5">{{Mo_ta}}</textarea>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input class="btn btn-large btn-success" type="submit" value="Edit" />
+            </div>
+        </div>
+        {{/with}}
+    </form>
+
+    {{/if}}
+</div>
+<script type="text/javascript" src="/themes/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $('#lnkLogout').on('click', function () {
+        $('#frmLogout').submit();
+    });
+</script>
