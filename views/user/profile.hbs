@@ -1,0 +1,191 @@
+{{#section 'welcome'}}
+<strong> {{layoutVM.userName}}</strong>
+{{/section}} {{#section 'cart'}}
+<div class="pull-right">
+    <a href="/user/cart">
+        <span class="btn btn-mini btn-primary">
+            <i class="icon-shopping-cart icon-white"></i> [ {{layoutVM.numItem}} ] Itemes in your cart </span>
+    </a>
+</div>
+{{/section}} {{#section 'menu'}}
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" id="lnkLogout" href="javascript:;">
+            <span class="btn btn-large btn-success">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Log out</span>
+        </a>
+    </li>
+</ul>
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a href="/user/purchase_history">
+            Purchase History
+        </a>
+    </li>
+
+    <li class="">
+        <a href="/user/profile">
+            Profile
+        </a>
+    </li>
+</ul>
+
+
+{{/section}} {{#section 'sidebar'}}
+<div class="well well-small">
+    <a id="myCart" href="/user/cart">
+        <img src="/themes/images/ico-cart.png" alt="cart">[ {{layoutVM.numItem}} ] Items in your cart </a>
+</div>
+<ul id="sideMenu" class="nav nav-tabs nav-stacked">
+    <li class="subMenu open">
+        <a> Brand of Product</a>
+        <ul>
+            <li>
+                <a href="/user/products/Canon">
+                    <i class="icon-chevron-right"></i>Canon </a>
+            </li>
+            <li>
+                <a href="/user/products/Nikon">
+                    <i class="icon-chevron-right"></i>Nikon </a>
+            </li>
+            <li>
+                <a href="/user/products/Sony">
+                    <i class="icon-chevron-right"></i>Sony </a>
+            </li>
+            <li>
+                <a href="/user/products/Fujifilm">
+                    <i class="icon-chevron-right"></i>Fujifilm </a>
+            </li>
+            <li>
+                <a href="/user/products/Olympus">
+                    <i class="icon-chevron-right"></i>Olympus </a>
+            </li>
+        </ul>
+    </li>
+    <li class="subMenu">
+        <a> Type of Product</a>
+        <ul>
+            <li>
+                <a href="/user/products/Travel">
+                    <i class="icon-chevron-right"></i>Travel Camera </a>
+            </li>
+            <li>
+                <a href="/user/products/DSLR">
+                    <i class="icon-chevron-right"></i>DSLR Camera </a>
+            </li>
+            <li>
+                <a href="/user/products/Mirrorless">
+                    <i class="icon-chevron-right"></i>Mirrorless Camera </a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<br/>
+
+<div class="thumbnail">
+    <a>
+        <img style="width:50%" src="/themes/images/Canon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Nikon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Olympus_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Fujifilm_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Sony_logo.jpg">
+    </a>
+</div>
+
+
+{{/section}}
+<form id="frmLogout" method="post" action="/user/logout"></form>
+<ul class="breadcrumb">
+    <li>
+        <a href="user/home">Home</a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active">Update Profile</li>
+</ul>
+<h3> Update Profile </h3>
+<div class="well">
+    {{#if success}}
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Success</strong> Change your profile successfully.
+    </div>
+    {{else}}
+    <form class="form-horizontal" action="profile" method="post">
+        <h4>Your information</h4>
+        {{#with user}}
+        <div class="control-group">
+            <label class="control-label" for="inputFname1">Name
+            </label>
+            <div class="controls">
+                <input type="text" name="Ten_khach_hang" value="{{Ten_khach_hang}}">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="inputFname1">Gender
+            </label>
+            <div class="controls">
+                <select class="span2" name="Gioi_tinh" value="{{Gioi_tinh}}" required>
+                    <option value="">-</option>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="input_email">Email
+            </label>
+            <div class="controls">
+                <input type="text" name="Email" value="{{Email}}">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Date of Birth
+            </label>
+            <div class="controls">
+                <input type="date" name="Ngay_sinh" value="{{Ngay_sinh}}">
+            </div>
+        </div>
+
+
+        <div class="control-group">
+            <label class="control-label">Address</label>
+            <div class="controls">
+                <input type="text" name="Dia_chi" value="{{Dia_chi}}" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Phone </label>
+            <div class="controls">
+                <input type="text" name="So_dien_thoai" value="{{So_dien_thoai}}" />
+            </div>
+        </div>
+
+        <p>
+            <sup>*</sup>Required field </p>
+
+        <div class="control-group">
+            <div class="controls">
+                <input class="btn btn-large btn-success" type="submit" value="Update" />
+            </div>
+        </div>
+        {{/with}}
+    </form>
+    {{/if}}
+</div>
+
+<script type="text/javascript">
+    $('#lnkLogout').on('click', function () {
+        $('#frmLogout').submit();
+    });
+</script>

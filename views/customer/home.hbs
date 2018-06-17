@@ -1,0 +1,356 @@
+{{#section 'welcome'}}
+<strong> Guest</strong>
+{{/section}} {{#section 'menu'}}
+
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" href="/customer/register">
+            <span class="btn btn-large btn-primary">
+                <i class="fa fa-edit" aria-hidden="true"></i> Sign up</span>
+        </a>
+    </li>
+</ul>
+
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a href="/user/login" role="button" style="padding-right:0">
+            <span class="btn btn-large btn-success">
+                <i class="fa fa-sign-in"></i> Sign in</span>
+        </a>
+    </li>
+</ul>
+{{/section}} {{#section 'carousel'}}
+<div id="carouselBlk">
+    <div id="myCarousel" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="container">
+                    <img style="width:100%" src="/themes/images/carousel/1.png" alt="special offers" />
+                </div>
+            </div>
+            <div class="item">
+                <div class="container">
+                    <img style="width:100%" src="/themes/images/carousel/2.png" alt="" />
+                </div>
+            </div>
+            <div class="item">
+                <div class="container">
+                    <img style="width:100%" src="/themes/images/carousel/3.png" alt="" />
+                </div>
+            </div>
+            <div class="item">
+                <div class="container">
+                    <img style="width:100%" src="/themes/images/carousel/4.png" alt="" />
+                </div>
+            </div>
+            <div class="item">
+                <div class="container">
+                    <img style="width:100%" src="/themes/images/carousel/5.png" alt="" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+</div>
+{{/section}} {{#section 'sidebar'}}
+<ul id="sideMenu" class="nav nav-tabs nav-stacked">
+    <li class="subMenu open">
+        <a> Brand of Product</a>
+        <ul>
+            <li>
+                <a href="/customer/products/Canon">
+                    <i class="icon-chevron-right"></i>Canon </a>
+            </li>
+            <li>
+                <a href="/customer/products/Nikon">
+                    <i class="icon-chevron-right"></i>Nikon </a>
+            </li>
+            <li>
+                <a href="/customer/products/Sony">
+                    <i class="icon-chevron-right"></i>Sony </a>
+            </li>
+            <li>
+                <a href="/customer/products/Fujifilm">
+                    <i class="icon-chevron-right"></i>Fujifilm </a>
+            </li>
+            <li>
+                <a href="/customer/products/Olympus">
+                    <i class="icon-chevron-right"></i>Olympus </a>
+            </li>
+        </ul>
+    </li>
+    <li class="subMenu">
+        <a> Type of Product</a>
+        <ul>
+            <li>
+                <a href="/customer/products/Travel">
+                    <i class="icon-chevron-right"></i>Travel Camera </a>
+            </li>
+            <li>
+                <a href="/customer/products/DSLR">
+                    <i class="icon-chevron-right"></i>DSLR Camera </a>
+            </li>
+            <li>
+                <a href="/customer/products/Mirrorless">
+                    <i class="icon-chevron-right"></i>Mirrorless Camera </a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<br/>
+<div class="thumbnail">
+    <div class="form-group">
+        <label>
+            <b>Name:</b>
+        </label>
+        <input type="text" id="ipName" class="form-control" placeholder="name of products">
+    </div>
+
+    <div class="form-group">
+        <div data-role="rangeslider">
+            <label for="price-max" id="output">Price: 0 - 0 VND</label>
+            <input type="range" name="price-max" id="ipPrice" value="55000000" min="0" max="55000000">
+        </div>
+    </div>
+    <br>
+    <button type="submit" id="searchBtn" class="btn btn-primary">
+        Search
+    </button>
+</div>
+<br/>
+<div class="thumbnail">
+    <a>
+        <img style="width:50%" src="/themes/images/Canon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Nikon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Olympus_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Fujifilm_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Sony_logo.jpg">
+    </a>
+</div>
+
+
+{{/section}}
+<div class="well well-small">
+    <h4>Top 10 most viewed products
+    </h4>
+    <div class="row-fluid">
+        <div id="viewed" class="carousel slide">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <ul class="thumbnails">
+                        {{#each mostviewed1}}
+                        <li class="span3">
+                            <div class="thumbnail" style="height:270px">
+                                <a href="/customer/product_details/{{Ma_so}}">
+                                    <img src="/themes/images/products/{{Hinh_anh}}" alt="">
+                                </a>
+                                <div class="caption">
+                                    <div style="height:33px">
+                                        <h5>{{Ten}}</h5>
+                                    </div>
+
+                                    <h4>
+                                        <a class="btn" href="/customer/product_details/{{Ma_so}}">
+                                            <i class="icon-zoom-in"></i>
+                                        </a>
+                                        <a class="btn btn-primary">{{number_format Don_gia_ban}} đ</a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="item">
+                    <ul class="thumbnails">
+                        {{#each mostviewed2}}
+                        <li class="span3">
+                            <div class="thumbnail" style="height:270px">
+                                <a href="/customer/product_details/{{Ma_so}}">
+                                    <img src="/themes/images/products/{{Hinh_anh}}" alt="">
+                                </a>
+                                <div class="caption">
+                                    <div style="height:33px">
+                                        <h5>{{Ten}}</h5>
+                                    </div>
+
+                                    <h4>
+                                        <a class="btn" href="/customer/product_details/{{Ma_so}}">
+                                            <i class="icon-zoom-in"></i>
+                                        </a>
+                                        <a class="btn btn-primary">{{number_format Don_gia_ban}} đ</a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="item">
+                    <ul class="thumbnails">
+                        {{#each mostviewed3}}
+                        <li class="span3">
+                            <div class="thumbnail" style="height:270px">
+                                <a href="/customer/product_details/{{Ma_so}}">
+                                    <img src="/themes/images/products/{{Hinh_anh}}" alt="">
+                                </a>
+                                <div class="caption">
+                                    <div style="height:33px">
+                                        <h5>{{Ten}}</h5>
+                                    </div>
+
+                                    <h4>
+                                        <a class="btn" href="/customer/product_details/{{Ma_so}}">
+                                            <i class="icon-zoom-in"></i>
+                                        </a>
+                                        <a class="btn btn-primary">{{number_format Don_gia_ban}} đ</a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+            <a class="left carousel-control" href="#viewed" data-slide="prev">‹</a>
+            <a class="right carousel-control" href="#viewed" data-slide="next">›</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="well well-small">
+    <h4>Top 10 best selling products
+    </h4>
+    <div class="row-fluid">
+        <div id="selling" class="carousel slide">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <ul class="thumbnails">
+                        {{#each bestselling1}}
+                        <li class="span3">
+                            <div class="thumbnail" style="height:270px">
+                                <a href="/customer/product_details/{{Ma_so}}">
+                                    <img src="/themes/images/products/{{Hinh_anh}}" alt="">
+                                </a>
+                                <div class="caption">
+                                    <div style="height:33px">
+                                        <h5>{{Ten}}</h5>
+                                    </div>
+
+                                    <h4>
+                                        <a class="btn" href="/customer/product_details/{{Ma_so}}">
+                                            <i class="icon-zoom-in"></i>
+                                        </a>
+                                        <a class="btn btn-primary">{{number_format Don_gia_ban}} đ</a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="item">
+                    <ul class="thumbnails">
+                        {{#each bestselling2}}
+                        <li class="span3">
+                            <div class="thumbnail" style="height:270px">
+                                <a href="/customer/product_details/{{Ma_so}}">
+                                    <img src="/themes/images/products/{{Hinh_anh}}" alt="">
+                                </a>
+                                <div class="caption">
+                                    <div style="height:33px">
+                                        <h5>{{Ten}}</h5>
+                                    </div>
+
+                                    <h4>
+                                        <a class="btn" href="/customer/product_details/{{Ma_so}}">
+                                            <i class="icon-zoom-in"></i>
+                                        </a>
+                                        <a class="btn btn-primary">{{number_format Don_gia_ban}} đ</a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="item">
+                    <ul class="thumbnails">
+                        {{#each bestselling3}}
+                        <li class="span3">
+                            <div class="thumbnail" style="height:270px">
+                                <a href="/customer/product_details/{{Ma_so}}">
+                                    <img src="/themes/images/products/{{Hinh_anh}}" alt="">
+                                </a>
+                                <div class="caption">
+                                    <div style="height:33px">
+                                        <h5>{{Ten}}</h5>
+                                    </div>
+
+                                    <h4>
+                                        <a class="btn" href="/customer/product_details/{{Ma_so}}">
+                                            <i class="icon-zoom-in"></i>
+                                        </a>
+                                        <a class="btn btn-primary">{{number_format Don_gia_ban}} đ</a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+            <a class="left carousel-control" href="#selling" data-slide="prev">‹</a>
+            <a class="right carousel-control" href="#selling" data-slide="next">›</a>
+        </div>
+    </div>
+</div>
+
+<h4>Latest Products </h4>
+<ul class="thumbnails">
+    {{#each latest}}
+    <li class="span3">
+        <div class="thumbnail">
+            <a href="/customer/product_details/{{Ma_so}}">
+                <img src="/themes/images/products/{{Hinh_anh}}" style="height: 180px" />
+            </a>
+            <div class="caption">
+                <h5>{{Ten}}</h5>
+
+                <h4 style="text-align:center">
+                    <a class="btn" href="/customer/product_details/{{Ma_so}}">
+                        <i class="icon-zoom-in"></i>
+                    </a>
+                    <a class="btn btn-primary">{{number_format Don_gia_ban}} đ</a>
+                </h4>
+            </div>
+        </div>
+    </li>
+    {{/each}}
+</ul>
+
+<script src="/themes/js/Xu_ly.js"></script>
+<script>
+    var ipPrice = document.getElementById("ipPrice");
+    var output = document.getElementById("output");
+    output.innerHTML = "Price: 0 - " + Tao_Chuoi_Th_So_nguyen_duong(ipPrice.value) + " VND"
+
+
+    ipPrice.oninput = function () {
+        output.innerHTML = "Price: 0 - " + Tao_Chuoi_Th_So_nguyen_duong(ipPrice.value) + " VND"
+    }
+    searchBtn.onclick = () => {
+        window.location.href = '/customer/products?name=' + ipName.value + '&price=' + ipPrice.value;
+    }
+</script>
