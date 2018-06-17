@@ -1,0 +1,223 @@
+{{#section 'welcome'}}
+<strong> {{layoutVM.userName}}</strong>
+{{/section}} {{#section 'cart'}}
+<div class="pull-right">
+    <a href="/user/cart">
+        <span class="btn btn-mini btn-primary">
+            <i class="icon-shopping-cart icon-white"></i> [ {{layoutVM.numItem}} ] Itemes in your cart </span>
+    </a>
+</div>
+{{/section}} {{#section 'menu'}}
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" id="lnkLogout" href="javascript:;">
+            <span class="btn btn-large btn-success">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Log out</span>
+        </a>
+    </li>
+</ul>
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a href="/user/purchase_history">
+            Purchase History
+        </a>
+    </li>
+
+    <li class="">
+        <a href="/user/profile">
+            Profile
+        </a>
+    </li>
+</ul>
+
+
+{{/section}} {{#section 'sidebar'}}
+<div class="well well-small">
+    <a id="myCart" href="/user/cart">
+        <img src="/themes/images/ico-cart.png" alt="cart">[ {{layoutVM.numItem}} ] Items in your cart </a>
+</div>
+<ul id="sideMenu" class="nav nav-tabs nav-stacked">
+    <li class="subMenu open">
+        <a> Brand of Product</a>
+        <ul>
+            <li>
+                <a href="/user/products/Canon">
+                    <i class="icon-chevron-right"></i>Canon </a>
+            </li>
+            <li>
+                <a href="/user/products/Nikon">
+                    <i class="icon-chevron-right"></i>Nikon </a>
+            </li>
+            <li>
+                <a href="/user/products/Sony">
+                    <i class="icon-chevron-right"></i>Sony </a>
+            </li>
+            <li>
+                <a href="/user/products/Fujifilm">
+                    <i class="icon-chevron-right"></i>Fujifilm </a>
+            </li>
+            <li>
+                <a href="/user/products/Olympus">
+                    <i class="icon-chevron-right"></i>Olympus </a>
+            </li>
+        </ul>
+    </li>
+    <li class="subMenu">
+        <a> Type of Product</a>
+        <ul>
+            <li>
+                <a href="/user/products/Travel">
+                    <i class="icon-chevron-right"></i>Travel Camera </a>
+            </li>
+            <li>
+                <a href="/user/products/DSLR">
+                    <i class="icon-chevron-right"></i>DSLR Camera </a>
+            </li>
+            <li>
+                <a href="/user/products/Mirrorless">
+                    <i class="icon-chevron-right"></i>Mirrorless Camera </a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<br/>
+<div class="thumbnail">
+    <div class="form-group">
+        <label>
+            <b>Name:</b>
+        </label>
+        <input type="text" id="ipName" class="form-control" placeholder="name of products">
+    </div>
+
+    <div class="form-group">
+        <div data-role="rangeslider">
+            <label for="price-max" id="output">Price: 0 - 0 VND</label>
+            <input type="range" name="price-max" id="ipPrice" value="55000000" min="0" max="55000000">
+        </div>
+    </div>
+    <br>
+    <button type="submit" id="searchBtn" class="btn btn-primary">
+        Search
+    </button>
+</div>
+<br/>
+<div class="thumbnail">
+    <a>
+        <img style="width:50%" src="/themes/images/Canon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Nikon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Olympus_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Fujifilm_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Sony_logo.jpg">
+    </a>
+</div>
+
+
+{{/section}}
+<form id="frmLogout" method="post" action="/user/logout"></form>
+<form id="frmAddItem" method="post" action="/user/addItem">
+    <input id="txtProId_R" type="hidden" name="Ma_so">
+</form>
+<ul class="breadcrumb">
+    <li>
+        <a href="/user/home">Home</a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active">Products</li>
+</ul>
+{{#if noProducts}}
+<h3>Sorry! We don't have product you are looking for</h3>
+<hr class="soft" /> {{else}}
+<h3> {{title}}
+    <small class="pull-right"> {{amount}} products are available </small>
+</h3>
+<hr class="soft" />
+<p>
+    Nowadays the lingerie industry is one of the most successful business spheres.We always stay in touch with the latest fashion
+    tendencies - that is why our goods are so popular and we have a great number of faithful users all over the country.
+</p>
+<hr class="soft" />
+<div class="tab-pane">
+    <ul class="thumbnails">
+        {{#each products}}
+        <li class="span3">
+            <div class="thumbnail">
+                <a href="/user/product_details/{{Ma_so}}">
+                    <img src="/themes/images/products/{{Hinh_anh}}" alt="" />
+                </a>
+                <div class="caption">
+                    <h5>{{Ten}}</h5>
+                    <p>
+                        {{number_format Don_gia_ban}} VND
+                    </p>
+                    <h4 style="text-align:center">
+                        <a class="btn" href="/user/product_details/{{Ma_so}}">View details
+                            <i class="icon-zoom-in"></i>
+                        </a>
+                        <a class="btn btn-primary addItem" href="javascript:;" data-proid="{{Ma_so}}">
+                            Add to
+                            <i class="fa fa-cart-plus"></i>
+                        </a>
+                    </h4>
+                </div>
+            </div>
+        </li>
+        {{/each}}
+
+    </ul>
+</div>
+<div class="pagination">
+    <ul>
+        {{#each page_numbers}} {{#if isCurPage}}
+        <li class="active">
+            <a href="javascript:;">{{value}}</a>
+        </li>
+        {{else}}
+        <li>
+            {{#if isSearch}}
+            <a href="?name={{name}}&price={{price}}&page={{value}}">{{value}}</a>
+            {{else}}
+            <a href="?page={{value}}">{{value}}</a>
+            {{/if}}
+        </li>
+        {{/if}} {{/each}}
+    </ul>
+</div>
+<br class="clr" /> {{/if}}
+
+<script src="/themes/js/Xu_ly.js"></script>
+<script>
+    var ipPrice = document.getElementById("ipPrice");
+    var output = document.getElementById("output");
+    output.innerHTML = "Price: 0 - " + Tao_Chuoi_Th_So_nguyen_duong(ipPrice.value) + " VND"
+
+
+    ipPrice.oninput = function () {
+        output.innerHTML = "Price: 0 - " + Tao_Chuoi_Th_So_nguyen_duong(ipPrice.value) + " VND"
+    }
+    searchBtn.onclick = () => {
+        window.location.href = '/user/products?name=' + ipName.value + '&price=' + ipPrice.value;
+    }
+</script>
+
+<script type="text/javascript" src="/themes/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $('.addItem').on('click', function () {
+        var id = $(this).data('proid');
+        $('#txtProId_R').val(id);
+        $('#frmAddItem').submit();
+    });
+</script>
+
+<script type="text/javascript">
+    $('#lnkLogout').on('click', function () {
+        $('#frmLogout').submit();
+    });
+</script>

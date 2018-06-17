@@ -1,0 +1,201 @@
+{{#section 'welcome'}}
+<strong> Guest</strong>
+{{/section}} {{#section 'menu'}}
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" href="/customer/register">
+            <span class="btn btn-large btn-primary">
+                <i class="fa fa-edit" aria-hidden="true"></i> Sign up</span>
+        </a>
+    </li>
+</ul>
+
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a href="/user/login" role="button" style="padding-right:0">
+            <span class="btn btn-large btn-success">
+                <i class="fa fa-sign-in"></i> Sign in</span>
+        </a>
+    </li>
+</ul>
+{{/section}} {{#section 'sidebar'}}
+<ul id="sideMenu" class="nav nav-tabs nav-stacked">
+    <li class="subMenu open">
+        <a> Brand of Product</a>
+        <ul>
+            <li>
+                <a href="/customer/products/Canon">
+                    <i class="icon-chevron-right"></i>Canon </a>
+            </li>
+            <li>
+                <a href="/customer/products/Nikon">
+                    <i class="icon-chevron-right"></i>Nikon </a>
+            </li>
+            <li>
+                <a href="/customer/products/Sony">
+                    <i class="icon-chevron-right"></i>Sony </a>
+            </li>
+            <li>
+                <a href="/customer/products/Fujifilm">
+                    <i class="icon-chevron-right"></i>Fujifilm </a>
+            </li>
+            <li>
+                <a href="/customer/products/Olympus">
+                    <i class="icon-chevron-right"></i>Olympus </a>
+            </li>
+        </ul>
+    </li>
+    <li class="subMenu">
+        <a> Type of Product</a>
+        <ul>
+            <li>
+                <a href="/customer/products/Travel">
+                    <i class="icon-chevron-right"></i>Travel Camera </a>
+            </li>
+            <li>
+                <a href="/customer/products/DSLR">
+                    <i class="icon-chevron-right"></i>DSLR Camera </a>
+            </li>
+            <li>
+                <a href="/customer/products/Mirrorless">
+                    <i class="icon-chevron-right"></i>Mirrorless Camera </a>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<br/>
+<div class="thumbnail">
+    <a>
+        <img style="width:50%" src="/themes/images/Canon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Nikon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Olympus_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Fujifilm_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Sony_logo.jpg">
+    </a>
+</div>
+
+
+{{/section}}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="/customer/home">Home</a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active">Registration</li>
+</ul>
+<h3> Registration </h3>
+<div class="well">
+    {{#if successResult}}
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Success!</strong> Sign up successfully.
+    </div>
+    {{else}}
+    <form class="form-horizontal" action="/customer/addUser" method="post" id="subscribeForm">
+        <h4>Please complete this form</h4>
+        <div class="control-group">
+            <label class="control-label" for="inputName">Your Name
+                <sup>*</sup>
+            </label>
+            <div class="controls">
+                <input type="text" id="Ten_khach_hang" placeholder="Your Name" name="Ten_khach_hang" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Gender
+                <sup>*</sup>
+            </label>
+            <div class="controls">
+                <select class="span2" name="Gioi_tinh" id="Gioi_tinh" required>
+                    <option value="">-</option>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Date of Birth
+                <sup>*</sup>
+            </label>
+            <div class="controls">
+                <input type="date" class="form-control" name="Ngay_sinh" id="Ngay_sinh" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputEmail">Email
+                <sup>*</sup>
+            </label>
+            <div class="controls">
+                <input type="text" id="Email" placeholder="Email" name="Email" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputPassword">Password
+                <sup>*</sup>
+            </label>
+            <div class="controls">
+                <input type="password"  placeholder="Password" name="Mat_khau" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputPassword">Confirm Password
+                <sup>*</sup>
+            </label>
+            <div class="controls">
+                <input type="password"  placeholder="Password" name="CMat_khau" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="address">Address
+                <sup>*</sup>
+            </label>
+            <div class="controls">
+                <input type="text" id="Dia_chi" placeholder="Adress" name="Dia_chi" required/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="mobile">Phone
+                <sup>*</sup>
+            </label>
+            <div class="controls">
+                <input type="text" id="So_dien_thoai" placeholder="Phone" name="So_dien_thoai" required/>
+            </div>
+        </div>
+
+        <p>
+            <sup>*</sup>Required field </p>
+        <br>
+
+        <div class="control-group">
+            <div class="g-recaptcha" data-sitekey="6LedcFgUAAAAAD2GlGUrHOSZLv1fOmI12bt3Ub3E"></div>
+        </div>
+
+        <br> 
+        {{#if errResult}}
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Error!</strong> {{errShow}}.
+        </div>
+        {{/if}}
+        <div class="control-group">
+            <div class="controls">
+                <input class="btn btn-large btn-success" type="submit" value="Register" />
+            </div>
+        </div>
+    </form>
+    {{/if}}
+
+</div>
+
+

@@ -1,0 +1,250 @@
+{{#section 'welcome'}}
+<strong> {{layoutVM.userName}}</strong>
+{{/section}} {{#section 'cart'}}
+<div class="pull-right">
+    <a href="/user/cart">
+        <span class="btn btn-mini btn-primary">
+            <i class="icon-shopping-cart icon-white"></i> [ {{layoutVM.numItem}} ] Itemes in your cart </span>
+    </a>
+</div>
+{{/section}} {{#section 'menu'}}
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" id="lnkLogout" href="javascript:;">
+            <span class="btn btn-large btn-success">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Log out</span>
+        </a>
+    </li>
+</ul>
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a href="/user/purchase_history">
+            Purchase History
+        </a>
+    </li>
+
+    <li class="">
+        <a href="/user/profile">
+            Profile
+        </a>
+    </li>
+</ul>
+
+
+{{/section}} {{#section 'sidebar'}}
+<div class="well well-small">
+    <a id="myCart" href="/user/cart">
+        <img src="/themes/images/ico-cart.png" alt="cart">[ {{layoutVM.numItem}} ] Items in your cart </a>
+</div>
+<ul id="sideMenu" class="nav nav-tabs nav-stacked">
+    <li class="subMenu open">
+        <a> Brand of Product</a>
+        <ul>
+            <li>
+                <a href="/user/products/Canon">
+                    <i class="icon-chevron-right"></i>Canon </a>
+            </li>
+            <li>
+                <a href="/user/products/Nikon">
+                    <i class="icon-chevron-right"></i>Nikon </a>
+            </li>
+            <li>
+                <a href="/user/products/Sony">
+                    <i class="icon-chevron-right"></i>Sony </a>
+            </li>
+            <li>
+                <a href="/user/products/Fujifilm">
+                    <i class="icon-chevron-right"></i>Fujifilm </a>
+            </li>
+            <li>
+                <a href="/user/products/Olympus">
+                    <i class="icon-chevron-right"></i>Olympus </a>
+            </li>
+        </ul>
+    </li>
+    <li class="subMenu">
+        <a> Type of Product</a>
+        <ul>
+            <li>
+                <a href="/user/products/Travel">
+                    <i class="icon-chevron-right"></i>Travel Camera </a>
+            </li>
+            <li>
+                <a href="/user/products/DSLR">
+                    <i class="icon-chevron-right"></i>DSLR Camera </a>
+            </li>
+            <li>
+                <a href="/user/products/Mirrorless">
+                    <i class="icon-chevron-right"></i>Mirrorless Camera </a>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<br/>
+<div class="thumbnail">
+    <a>
+        <img style="width:50%" src="/themes/images/Canon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Nikon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Olympus_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Fujifilm_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Sony_logo.jpg">
+    </a>
+</div>
+
+
+{{/section}}
+<form id="frmLogout" method="post" action="/user/logout"></form>
+<ul class="breadcrumb">
+    <li>
+        <a href="/user/home">Home</a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active">Shopping Cart</li>
+</ul>
+<h3> Shopping cart
+    <a href="/user/home" class="btn btn-large pull-right">
+        <i class="icon-arrow-left"></i> Continue Shopping </a>
+</h3>
+<hr class="soft" /> {{#if success}}
+<div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <strong>Thank you for buying our product!</strong> .
+</div>
+{{else}}
+<form id="frmRemoveItem" method="post" action="/user/removeItem">
+    <input id="txtProId_R" type="hidden" name="Ma_so">
+</form>
+
+<form id="addOrder" method="post" action="/user/addOrder">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Quantity/Update</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each items}}
+            <tr>
+                <td>
+                    <img width="60" src="/themes/images/products/{{Product.Hinh_anh}}" alt="" />
+                </td>
+                <td>{{Product.Ten}}</td>
+
+                <td>
+                    <div class="input-append">
+                        <input class="span1" style="max-width:34px" placeholder="1" value="1" id="{{Product.Ma_so}}" size="16" type="text" name="{{Product.Ma_so}}"
+                            readonly>
+                        <button data-proid="{{Product.Ma_so}}" class="btn deQuan" type="button">
+                            <i class="icon-minus"></i>
+                        </button>
+                        <button data-proid="{{Product.Ma_so}}" class="btn inQuan" type="button">
+                            <i class="icon-plus"></i>
+                        </button>
+                        <a data-proid="{{Product.Ma_so}}" class="btn btn-danger removeItem" href="javascript:;" role="button">
+                            <i class="icon-remove icon-white"></i>
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    <input type="hidden" id="P{{Product.Ma_so}}" class="a" value="{{Product.Don_gia_ban}}">{{number_format Product.Don_gia_ban}} VND</td>
+                <td id="T{{Product.Ma_so}}" class="totalItem" value="{{Product.Don_gia_ban}}">{{number_format Product.Don_gia_ban}} VND </td>
+            </tr>
+            {{/each}}
+            <tr>
+                <td colspan="4" style="text-align:right">
+                    <strong>TOTAL =</strong>
+                </td>
+                <td class="label label-important" style="display:block">
+                    <strong id="totalPrice" name="totalPrice"> </strong>
+                    <input type="hidden" id="inputtotalPrice" name="totalPrice"> </input>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+<a class="btn btn-large btn-success pull-right" id="submit">Purchase</a>
+{{/if}}
+
+
+<script src="/themes/js/Xu_ly.js"></script>
+<script type="text/javascript" src="/themes/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+
+    var allItem = document.getElementsByClassName("a")
+    var allItem2 = document.getElementsByClassName("totalItem")
+    var totalPrice = 0
+    for (var i = 0; i < allItem.length; i++) {
+        totalPrice += parseInt(allItem[i].value)
+        allItem2[i].value = allItem[i].value
+    }
+    document.getElementById("totalPrice").innerHTML = Tao_Chuoi_Th_So_nguyen_duong(totalPrice) + " VND"
+    document.getElementById("inputtotalPrice").value = totalPrice
+
+    $('.removeItem').on('click', function () {
+        var id = $(this).data('proid');
+        $('#txtProId_R').val(id);
+        $('#frmRemoveItem').submit();
+    });
+
+    $('.inQuan').on('click', function () {
+        var id = $(this).data('proid');
+        var quan = parseInt(document.getElementById(id).value) + 1;
+        $('#' + id).val(quan);
+        var total = quan * parseInt(document.getElementById("P" + id).value)
+        document.getElementById("T" + id).innerHTML = Tao_Chuoi_Th_So_nguyen_duong(total) + " VND"
+        document.getElementById("T" + id).value = total
+
+
+        var allItem = document.getElementsByClassName("totalItem")
+        var totalPrice = 0
+        for (var i = 0; i < allItem.length; i++) {
+            console.log(allItem[i].value)
+            totalPrice += parseInt(allItem[i].value)
+        }
+        document.getElementById("totalPrice").innerHTML = Tao_Chuoi_Th_So_nguyen_duong(totalPrice) + " VND"
+        document.getElementById("inputtotalPrice").value = totalPrice
+    });
+
+    $('.deQuan').on('click', function () {
+        var id = $(this).data('proid');
+        if (document.getElementById(id).value == 1)
+            return;
+        var quan = parseInt(document.getElementById(id).value) - 1;
+        $('#' + id).val(quan);
+        var total = quan * parseInt(document.getElementById("P" + id).value)
+        document.getElementById("T" + id).innerHTML = Tao_Chuoi_Th_So_nguyen_duong(total) + " VND"
+        document.getElementById("T" + id).value = total
+
+        var allItem = document.getElementsByClassName("totalItem")
+        var totalPrice = 0
+        for (var i = 0; i < allItem.length; i++) {
+            console.log(allItem[i].value)
+            totalPrice += parseInt(allItem[i].value)
+        }
+        document.getElementById("totalPrice").innerHTML = Tao_Chuoi_Th_So_nguyen_duong(totalPrice) + " VND"
+        document.getElementById("inputtotalPrice").value = totalPrice
+    });
+
+    submit.onclick = () => {
+        $('#addOrder').submit();
+    }
+</script>
+<script type="text/javascript">
+    $('#lnkLogout').on('click', function () {
+        $('#frmLogout').submit();
+    });
+</script>
