@@ -1,0 +1,231 @@
+{{#section 'welcome'}}
+<strong> Guest</strong>
+{{/section}} {{#section 'menu'}}
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a role="button" style="padding-right:0" href="/customer/register">
+            <span class="btn btn-large btn-primary">
+                <i class="fa fa-edit" aria-hidden="true"></i> Sign up</span>
+        </a>
+    </li>
+</ul>
+
+<ul id="topMenu" class="nav pull-right">
+    <li class="">
+        <a href="/user/login" role="button" style="padding-right:0">
+            <span class="btn btn-large btn-success">
+                <i class="fa fa-sign-in"></i> Sign in</span>
+        </a>
+    </li>
+</ul>
+{{/section}} {{#section 'sidebar'}}
+<ul id="sideMenu" class="nav nav-tabs nav-stacked">
+    <li class="subMenu open">
+        <a> Brand of Product</a>
+        <ul>
+            <li>
+                <a href="/customer/products/Canon">
+                    <i class="icon-chevron-right"></i>Canon </a>
+            </li>
+            <li>
+                <a href="/customer/products/Nikon">
+                    <i class="icon-chevron-right"></i>Nikon </a>
+            </li>
+            <li>
+                <a href="/customer/products/Sony">
+                    <i class="icon-chevron-right"></i>Sony </a>
+            </li>
+            <li>
+                <a href="/customer/products/Fujifilm">
+                    <i class="icon-chevron-right"></i>Fujifilm </a>
+            </li>
+            <li>
+                <a href="/customer/products/Olympus">
+                    <i class="icon-chevron-right"></i>Olympus </a>
+            </li>
+        </ul>
+    </li>
+    <li class="subMenu">
+        <a> Type of Product</a>
+        <ul>
+            <li>
+                <a href="/customer/products/Travel">
+                    <i class="icon-chevron-right"></i>Travel Camera </a>
+            </li>
+            <li>
+                <a href="/customer/products/DSLR">
+                    <i class="icon-chevron-right"></i>DSLR Camera </a>
+            </li>
+            <li>
+                <a href="/customer/products/Mirrorless">
+                    <i class="icon-chevron-right"></i>Mirrorless Camera </a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<br/>
+<div class="thumbnail">
+    <div class="form-group">
+        <label>
+            <b>Name:</b>
+        </label>
+        <input type="text" id="ipName" class="form-control" placeholder="name of products">
+    </div>
+
+    <div class="form-group">
+        <div data-role="rangeslider">
+            <label for="price-max" id="output">Price: 0 - 0 VND</label>
+            <input type="range" name="price-max" id="ipPrice" value="55000000" min="0" max="55000000">
+        </div>
+    </div>
+    <br>
+    <button type="submit" id="searchBtn" class="btn btn-primary">
+        Search
+    </button>
+</div>
+<br/>
+<div class="thumbnail">
+    <a>
+        <img style="width:50%" src="/themes/images/Canon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Nikon_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Olympus_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Fujifilm_logo.jpg">
+    </a>
+    <a>
+        <img style="width:50%" src="/themes/images/Sony_logo.jpg">
+    </a>
+</div>
+
+
+{{/section}}
+
+
+<ul class="breadcrumb">
+    <li>
+        <a href="/customer/home">Home</a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active">Products details</li>
+</ul>
+<div class="row">
+    {{#with product}}
+    <div id="gallery" class="span3">
+        <a href="/themes/images/products/{{Hinh_anh}}" title="{{Ten}}">
+            <img src="/themes/images/products/{{Hinh_anh}}" style="width:100%" />
+        </a>
+    </div>
+
+    <div class="span6">
+        <h3>{{Ten}} </h3>
+        <hr class="soft" />
+        <form class="form-horizontal qtyFrm">
+            <div class="control-group">
+                <label class="control-label">
+                    <span>{{number_format Don_gia_ban}} VND</span>
+                </label>
+            </div>
+        </form>
+
+        <hr class="soft clr" />
+        <div class="span3">
+            <b>
+                <i class="fa fa-eye"></i> Views</b>: {{So_luot_xem}}
+            <br>
+            <b>
+                <i class="fa fa-camera"></i> Sales</b>: {{So_luong_ban}}
+        </div>
+
+        <div class="span2">
+            <b>
+                <img style="width: 15px" src="/themes/images/icons8-type-24.png"> Type</b>: {{Loai}}
+            <br>
+            <b>
+                <img style="width: 16px" src="/themes/images/icons8-bag-brand-24.png"> Brand</b>: {{Hang}}
+        </div>
+        <hr class="soft clr" />
+        <p>
+            {{Mo_ta}}
+        </p>
+        <hr class="soft" /> {{/with}}
+    </div>
+    <!-- các sản phẩm liên quan -->
+    <div class="span9">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#type" data-toggle="tab">Related Type</a>
+            </li>
+            <li>
+                <a href="#brand" data-toggle="tab">Related Brand</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="type">
+                <div class="tab-pane">
+                    {{#each relatedType}}
+                    <div class="row">
+                        <div class="span2">
+                            <img src="/themes/images/products/{{Hinh_anh}}" alt="" />
+                        </div>
+                        <div class="span4">
+                            <h3>{{Ten}}</h3>
+                            <hr class="soft" />
+                            <a class="btn btn-small" href="/customer/product_details/{{Ma_so}}">View Details</a>
+                            <br class="clr" />
+                        </div>
+                        <div class="span3 alignR">
+                            <form class="form-horizontal qtyFrm">
+                                <h3> {{number_format Don_gia_ban}} VND</h3>
+                            </form>
+                        </div>
+                    </div>
+                    <hr class="soft" /> {{/each}}
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="brand">
+
+                <div class="tab-pane">
+                    {{#each relatedBrand}}
+                    <div class="row">
+                        <div class="span2">
+                            <img src="/themes/images/products/{{Hinh_anh}}" alt="" />
+                        </div>
+                        <div class="span4">
+                            <h3>{{Ten}}</h3>
+                            <hr class="soft" />
+                            <a class="btn btn-small" href="/customer/product_details/{{Ma_so}}">View Details</a>
+                            <br class="clr" />
+                        </div>
+                        <div class="span3 alignR">
+                            <form class="form-horizontal qtyFrm">
+                                <h3> {{number_format Don_gia_ban}} VND</h3>
+                            </form>
+                        </div>
+                    </div>
+                    <hr class="soft" /> {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/themes/js/Xu_ly.js"></script>
+<script>
+    var ipPrice = document.getElementById("ipPrice");
+    var output = document.getElementById("output");
+    output.innerHTML = "Price: 0 - " + Tao_Chuoi_Th_So_nguyen_duong(ipPrice.value) + " VND"
+
+
+    ipPrice.oninput = function () {
+        output.innerHTML = "Price: 0 - " + Tao_Chuoi_Th_So_nguyen_duong(ipPrice.value) + " VND"
+    }
+    searchBtn.onclick = () => {
+        window.location.href = '/customer/products?name=' + ipName.value + '&price=' + ipPrice.value;
+    }
+</script>
