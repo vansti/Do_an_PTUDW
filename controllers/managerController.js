@@ -3,6 +3,7 @@ var router = express.Router();
 var multer = require('multer');
 var xu_ly = require('../fn/xu_ly');
 var restrict = require('../middle-wares/restrictManager');
+var SHA256 = require('crypto-js/sha256');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

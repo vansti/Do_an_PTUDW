@@ -117,6 +117,7 @@ router.get('/products?', (req, res) => {
 router.get('/product_details/:id', (req, res) => {
     var pid = req.params.id;
     var vm = {};
+    
     xu_ly.connectDatabase().query("select * from may_anh where Ma_so = ?;", [pid], function (err, row) {
         if (err) throw err;
         vm.product = row[0]
@@ -135,6 +136,7 @@ router.get('/product_details/:id', (req, res) => {
             })
         })
     })
+    xu_ly.connectDatabase().query("update may_anh set So_luot_xem = So_luot_xem + 1 Where Ma_so = ?",[pid],function (err, row) {})
 });
 
 router.get('/register', (req, res) => {

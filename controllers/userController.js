@@ -169,6 +169,7 @@ router.get('/product_details/:id', restrict, (req, res) => {
             })
         })
     })
+    xu_ly.connectDatabase().query("update may_anh set So_luot_xem = So_luot_xem + 1 Where Ma_so = ?",[pid],function (err, row) {})
 });
 
 
@@ -240,10 +241,12 @@ router.post('/addOrder', (req, res) => {
                     Ma_so: key,
                     So_luong: item
                 }
+                xu_ly.connectDatabase().query("update may_anh set So_luong_ban = So_luong_ban + 1 * ? Where Ma_so = ?",[order_detail.So_luong, order_detail.Ma_so],function (err, row) {})
                 xu_ly.connectDatabase().query("INSERT INTO ct_hoa_don SET ?", order_detail, function (err, row) {
                     if (err) throw err;
                 })
             }
+            req.session.cart = [];
             var vm = {
                 success: true
             }
