@@ -1,5 +1,7 @@
 var express = require('express'),
     productRepo = require('../repos/productRepo');
+    orderRepo = require('../repos/orderRepo');
+    userRepo = require('../repos/userRepo');
 var restrict = require('../middle-wares/restrictUser');
 var xu_ly = require('../fn/xu_ly');
 var request = require('request');
@@ -41,26 +43,42 @@ router.post('/login', (req, res) => {
 
 
 router.get('/home', restrict, (req, res) => {
-    var vm = {
+    var vm = {};
+    var vm = {};
+    var p1 = productRepo.loadMostviewed();
+    var p2 = productRepo.loadBestselling();
+    var p3 = productRepo.loadLatest();
+    var p4 = productRepo.loadBrand();
+    var p5 = productRepo.loadType();
+    Promise.all([p1, p2, p3, p4, p5]).then(([Mostviewed, Bestselling, Latest, Brand, Type]) => {
+        vm.mostviewed1 = xu_ly.chuoi1(Mostviewed)
+        vm.mostviewed2 = xu_ly.chuoi2(Mostviewed)
+        vm.mostviewed3 = xu_ly.chuoi3(Mostviewed)
+        vm.bestselling1 = xu_ly.chuoi1(Bestselling)
+        vm.bestselling2 = xu_ly.chuoi2(Bestselling)
+        vm.bestselling3 = xu_ly.chuoi3(Bestselling)
+        vm.latest = Latest;
+        vm.brand = Brand;
+        vm.type = Type;
+        res.render('user/home', vm);
+    })
+    // productRepo.loadMostviewed().then(rows => {
+    //     vm.mostviewed1 = xu_ly.chuoi1(rows)
+    //     vm.mostviewed2 = xu_ly.chuoi2(rows)
+    //     vm.mostviewed3 = xu_ly.chuoi3(rows)
 
-    };
-    productRepo.loadMostviewed().then(rows => {
-        vm.mostviewed1 = xu_ly.chuoi1(rows)
-        vm.mostviewed2 = xu_ly.chuoi2(rows)
-        vm.mostviewed3 = xu_ly.chuoi3(rows)
+    //     productRepo.loadBestselling().then(rows => {
+    //         vm.bestselling1 = xu_ly.chuoi1(rows)
+    //         vm.bestselling2 = xu_ly.chuoi2(rows)
+    //         vm.bestselling3 = xu_ly.chuoi3(rows)
 
-        productRepo.loadBestselling().then(rows => {
-            vm.bestselling1 = xu_ly.chuoi1(rows)
-            vm.bestselling2 = xu_ly.chuoi2(rows)
-            vm.bestselling3 = xu_ly.chuoi3(rows)
+    //         productRepo.loadLatest().then(rows => {
+    //             vm.latest = rows
+    //             res.render('user/home', vm);
+    //         });
 
-            productRepo.loadLatest().then(rows => {
-                vm.latest = rows
-                res.render('user/home', vm);
-            });
-
-        });
-    });
+    //     });
+    // });
 });
 
 
@@ -78,7 +96,9 @@ router.get('/products/:id', restrict, (req, res) => {
 
     var p1 = productRepo.loadAllByID(pid, offset);
     var p2 = productRepo.countByID(pid);
-    Promise.all([p1, p2]).then(([pRows, countRows]) => {
+    var p4 = productRepo.loadBrand();
+    var p5 = productRepo.loadType();
+    Promise.all([p1, p2, p4, p5]).then(([pRows, countRows, Brand, Type]) => {
 
         var total = countRows[0].total;
         var nPages = total / config.PRODUCTS_PER_PAGE;
@@ -100,10 +120,12 @@ router.get('/products/:id', restrict, (req, res) => {
             page_numbers: numbers,
             amount: total,
             title: pid,
-
+            brand: Brand,
+            type: Type
         };
-        res.render('user/products', vm)
-    })
+
+        res.render('user/products', vm);
+    });
 });
 
 router.get('/products?', restrict, (req, res) => {
@@ -117,7 +139,9 @@ router.get('/products?', restrict, (req, res) => {
 
     var p1 = productRepo.loadAllByNP(price, name, offset);
     var p2 = productRepo.countByNP(price, name);
-    Promise.all([p1, p2]).then(([pRows, countRows]) => {
+    var p4 = productRepo.loadBrand();
+    var p5 = productRepo.loadType();
+    Promise.all([p1, p2, p4, p5]).then(([pRows, countRows, Brand, Type]) => {
 
         var total = countRows[0].total;
         var nPages = total / config.PRODUCTS_PER_PAGE;
@@ -141,11 +165,11 @@ router.get('/products?', restrict, (req, res) => {
             page_numbers: numbers,
             amount: total,
             title: "Products found",
-
+            brand: Brand,
+            type: Type
         };
-
-        res.render('user/products', vm)
-    })
+        res.render('user/products', vm);
+    });
 });
 
 router.get('/product_details/:id', restrict, (req, res) => {
@@ -165,11 +189,20 @@ router.get('/product_details/:id', restrict, (req, res) => {
                 if (err) throw err;
                 vm.relatedType = rows
 
-                res.render('user/product_details', vm)
+                xu_ly.connectDatabase().query("update may_anh set So_luot_xem = So_luot_xem + 1 Where Ma_so = ?", [pid], function () {
+                    var p4 = productRepo.loadBrand();
+                    var p5 = productRepo.loadType();
+                    Promise.all([p4, p5]).then(([Brand, Type]) => {
+                        vm.brand = Brand;
+                        vm.type = Type;
+                        res.render('user/product_details', vm)
+                    })
+                })
+
             })
         })
     })
-    xu_ly.connectDatabase().query("update may_anh set So_luot_xem = So_luot_xem + 1 Where Ma_so = ?",[pid],function (err, row) {})
+
 });
 
 
@@ -230,7 +263,7 @@ router.post('/addOrder', (req, res) => {
         Tong_tien: Tong_tien,
         Ma_khach_hang: req.session.user.Ma_khach_hang
     }
-    xu_ly.connectDatabase().query("INSERT INTO hoa_don SET ?", order, function (err, row) {
+    xu_ly.connectDatabase().query("INSERT INTO hoa_don SET ?", order, function (err) {
         if (err) throw err;
         xu_ly.connectDatabase().query("SELECT max(Ma_hoa_don) as Ma_hoa_don FROM hoa_don", function (err, row) {
             if (err) throw err;
@@ -241,10 +274,12 @@ router.post('/addOrder', (req, res) => {
                     Ma_so: key,
                     So_luong: item
                 }
-                xu_ly.connectDatabase().query("update may_anh set So_luong_ban = So_luong_ban + 1 * ? Where Ma_so = ?",[order_detail.So_luong, order_detail.Ma_so],function (err, row) {})
-                xu_ly.connectDatabase().query("INSERT INTO ct_hoa_don SET ?", order_detail, function (err, row) {
-                    if (err) throw err;
+                xu_ly.connectDatabase().query("update may_anh set So_luong_ban = So_luong_ban + 1 * ? Where Ma_so = ?", [order_detail.So_luong, order_detail.Ma_so], function () {
+                    xu_ly.connectDatabase().query("INSERT INTO ct_hoa_don SET ?", order_detail, function (err) {
+                        if (err) throw err;
+                    })
                 })
+
             }
             req.session.cart = [];
             var vm = {
@@ -258,44 +293,62 @@ router.post('/addOrder', (req, res) => {
 
 
 router.get('/purchase_history', (req, res) => {
-    var sql="SELECT Ma_hoa_don, DATE_FORMAT(Ngay_dat_hang, '%Y-%m-%d') AS Ngay_dat_hang, Trang_thai, Tong_tien FROM hoa_don where Ma_khach_hang = ? ORDER BY Ngay_dat_hang DESC"
-    xu_ly.connectDatabase().query(sql, req.session.user.Ma_khach_hang , function (err, rows) {
-        if (err) throw err;
-        var vm={
-            order: rows
-        }
-        res.render('user/purchase_history', vm);       
+    var p1 = orderRepo.loadPurchaseHistory(req.session.user.Ma_khach_hang)
+    var p4 = productRepo.loadBrand();
+    var p5 = productRepo.loadType();
+    Promise.all([p1, p4, p5]).then(([Order, Brand, Type]) => {
+        vm.brand = Brand;
+        vm.type = Type;
+        vm.order = Order;
+        res.render('user/purchase_history', vm)
     })
+    // var sql = "SELECT Ma_hoa_don, DATE_FORMAT(Ngay_dat_hang, '%Y-%m-%d') AS Ngay_dat_hang, Trang_thai, Tong_tien FROM hoa_don where Ma_khach_hang = ? ORDER BY Ngay_dat_hang DESC"
+    // xu_ly.connectDatabase().query(sql, req.session.user.Ma_khach_hang, function (err, rows) {
+    //     if (err) throw err;
+    //     var vm = {
+    //         order: rows
+    //     }
+    //     res.render('user/purchase_history', vm);
+    // })
 });
 
 router.get('/profile', (req, res) => {
-    var sql="SELECT *,DATE_FORMAT(Ngay_sinh, '%Y-%m-%d') AS Ngay_sinh from khach_hang where Ma_khach_hang = ?"
-    xu_ly.connectDatabase().query(sql, req.session.user.Ma_khach_hang , function (err, rows) {
-        if (err) throw err;
-        var vm={
-            user: rows[0]
-        }
-        res.render('user/profile', vm);       
+    var p1 = userRepo.loadUser(req.session.user.Ma_khach_hang)
+    var p4 = productRepo.loadBrand();
+    var p5 = productRepo.loadType();
+    Promise.all([p1, p4, p5]).then(([User, Brand, Type]) => {
+        vm.brand = Brand;
+        vm.type = Type;
+        vm.user = User[0];
+        res.render('user/profile', vm);
     })
+    // var sql = "SELECT *,DATE_FORMAT(Ngay_sinh, '%Y-%m-%d') AS Ngay_sinh from khach_hang where Ma_khach_hang = ?"
+    // xu_ly.connectDatabase().query(sql, req.session.user.Ma_khach_hang, function (err, rows) {
+    //     if (err) throw err;
+    //     var vm = {
+    //         user: rows[0]
+    //     }
+    //     res.render('user/profile', vm);
+    // })
 });
 
 router.post('/profile', (req, res) => {
     const userdata = [
-        Email= req.body.Email.toLowerCase(),
-        Ten_khach_hang= req.body.Ten_khach_hang,
-        Gioi_tinh= req.body.Gioi_tinh,
-        Ngay_sinh= req.body.Ngay_sinh,
-        So_dien_thoai= req.body.So_dien_thoai,
-        Dia_chi= req.body.Dia_chi,
+        Email = req.body.Email.toLowerCase(),
+        Ten_khach_hang = req.body.Ten_khach_hang,
+        Gioi_tinh = req.body.Gioi_tinh,
+        Ngay_sinh = req.body.Ngay_sinh,
+        So_dien_thoai = req.body.So_dien_thoai,
+        Dia_chi = req.body.Dia_chi,
         Ma_khach_hang = req.session.user.Ma_khach_hang
     ]
-    var sql="update khach_hang set Email = ?, Ten_khach_hang = ?, Gioi_tinh=?, Ngay_sinh=?, So_dien_thoai=?, Dia_chi=? where Ma_khach_hang = ?"
-    xu_ly.connectDatabase().query(sql ,userdata, function (err, rows) {
+    var sql = "update khach_hang set Email = ?, Ten_khach_hang = ?, Gioi_tinh=?, Ngay_sinh=?, So_dien_thoai=?, Dia_chi=? where Ma_khach_hang = ?"
+    xu_ly.connectDatabase().query(sql, userdata, function (err, rows) {
         if (err) throw err;
-        var vm={
+        var vm = {
             success: true
         }
-        res.render('user/profile', vm);       
+        res.render('user/profile', vm);
     })
 });
 

@@ -1,6 +1,6 @@
 var express = require('express'),
     productRepo = require('../repos/productRepo');
-    SHA256 = require('crypto-js/sha256'),
+SHA256 = require('crypto-js/sha256'),
     moment = require('moment');
 
 var xu_ly = require('../fn/xu_ly');
@@ -10,26 +10,43 @@ var router = express.Router();
 
 router.get('/home', (req, res) => {
     var vm = {};
-    productRepo.loadMostviewed().then(rows => {
-        
-        vm.mostviewed1 = xu_ly.chuoi1(rows)
-        vm.mostviewed2 = xu_ly.chuoi2(rows)
-        vm.mostviewed3 = xu_ly.chuoi3(rows)
+    var p1 = productRepo.loadMostviewed();
+    var p2 = productRepo.loadBestselling();
+    var p3 = productRepo.loadLatest();
+    var p4 = productRepo.loadBrand();
+    var p5 = productRepo.loadType();
+    Promise.all([p1, p2, p3, p4, p5]).then(([Mostviewed, Bestselling, Latest, Brand, Type]) => {
+        vm.mostviewed1 = xu_ly.chuoi1(Mostviewed)
+        vm.mostviewed2 = xu_ly.chuoi2(Mostviewed)
+        vm.mostviewed3 = xu_ly.chuoi3(Mostviewed)
+        vm.bestselling1 = xu_ly.chuoi1(Bestselling)
+        vm.bestselling2 = xu_ly.chuoi2(Bestselling)
+        vm.bestselling3 = xu_ly.chuoi3(Bestselling)
+        vm.latest = Latest;
+        vm.brand = Brand;
+        vm.type = Type;
+        res.render('customer/home', vm);
+    })
+    // productRepo.loadMostviewed().then(rows => {
 
-        productRepo.loadBestselling().then(rows => {
-            
-            vm.bestselling1 = xu_ly.chuoi1(rows)
-            vm.bestselling2 = xu_ly.chuoi2(rows)
-            vm.bestselling3 = xu_ly.chuoi3(rows)
+    //     vm.mostviewed1 = xu_ly.chuoi1(rows)
+    //     vm.mostviewed2 = xu_ly.chuoi2(rows)
+    //     vm.mostviewed3 = xu_ly.chuoi3(rows)
 
-            productRepo.loadLatest().then(rows => {
-                
-                vm.latest = rows
-                res.render('customer/home', vm);
-            });
+    //     productRepo.loadBestselling().then(rows => {
 
-        });
-    });
+    //         vm.bestselling1 = xu_ly.chuoi1(rows)
+    //         vm.bestselling2 = xu_ly.chuoi2(rows)
+    //         vm.bestselling3 = xu_ly.chuoi3(rows)
+
+    //         productRepo.loadLatest().then(rows => {
+
+    //             vm.latest = rows
+    //             res.render('customer/home', vm);
+    //         });
+
+    //     });
+    // });
 });
 
 
@@ -47,7 +64,9 @@ router.get('/products/:id', (req, res) => {
 
     var p1 = productRepo.loadAllByID(pid, offset);
     var p2 = productRepo.countByID(pid);
-    Promise.all([p1, p2]).then(([pRows, countRows]) => {
+    var p4 = productRepo.loadBrand();
+    var p5 = productRepo.loadType();
+    Promise.all([p1, p2, p4, p5]).then(([pRows, countRows, Brand, Type]) => {
 
         var total = countRows[0].total;
         var nPages = total / config.PRODUCTS_PER_PAGE;
@@ -68,24 +87,29 @@ router.get('/products/:id', (req, res) => {
             noProducts: pRows.length === 0,
             page_numbers: numbers,
             amount: total,
-            title: pid
+            title: pid,
+            brand: Brand,
+            type: Type
         };
+
         res.render('customer/products', vm);
     });
 });
 
 router.get('/products?', (req, res) => {
     var price = req.query.price;
-    var name = req.query.name; 
+    var name = req.query.name;
     var page = req.query.page;
     if (!page) {
         page = 1;
     }
     var offset = (page - 1) * config.PRODUCTS_PER_PAGE;
 
-    var p1 = productRepo.loadAllByNP(price, name , offset);
+    var p1 = productRepo.loadAllByNP(price, name, offset);
     var p2 = productRepo.countByNP(price, name);
-    Promise.all([p1, p2]).then(([pRows, countRows]) => {
+    var p4 = productRepo.loadBrand();
+    var p5 = productRepo.loadType();
+    Promise.all([p1, p2, p4, p5]).then(([pRows, countRows, Brand, Type]) => {
 
         var total = countRows[0].total;
         var nPages = total / config.PRODUCTS_PER_PAGE;
@@ -108,7 +132,9 @@ router.get('/products?', (req, res) => {
             noProducts: pRows.length === 0,
             page_numbers: numbers,
             amount: total,
-            title: "Products found"
+            title: "Products found",
+            brand: Brand,
+            type: Type
         };
         res.render('customer/products', vm);
     });
@@ -117,26 +143,34 @@ router.get('/products?', (req, res) => {
 router.get('/product_details/:id', (req, res) => {
     var pid = req.params.id;
     var vm = {};
-    
     xu_ly.connectDatabase().query("select * from may_anh where Ma_so = ?;", [pid], function (err, row) {
         if (err) throw err;
         vm.product = row[0]
 
         xu_ly.connectDatabase().query("select * from may_anh WHERE Hang= ? AND Ma_so != ? ORDER BY Rand() limit 5", [row[0].Hang, pid], function (err, rows) {
             if (err) throw err;
-            
+
             vm.relatedBrand = rows
 
             xu_ly.connectDatabase().query("select * from may_anh WHERE Loai= ? AND Ma_so != ? ORDER BY Rand() limit 5", [row[0].Loai, pid], function (err, rows) {
                 if (err) throw err;
-                
+
                 vm.relatedType = rows
 
-                res.render('customer/product_details', vm)
+                xu_ly.connectDatabase().query("update may_anh set So_luot_xem = So_luot_xem + 1 Where Ma_so = ?", [pid], function () {
+                    var p4 = productRepo.loadBrand();
+                    var p5 = productRepo.loadType();
+                    Promise.all([p4, p5]).then(([Brand, Type]) => {
+                        vm.brand = Brand;
+                        vm.type = Type;
+                        res.render('customer/product_details', vm)
+                    })
+                })
+
             })
         })
     })
-    xu_ly.connectDatabase().query("update may_anh set So_luot_xem = So_luot_xem + 1 Where Ma_so = ?",[pid],function (err, row) {})
+
 });
 
 router.get('/register', (req, res) => {
@@ -144,7 +178,14 @@ router.get('/register', (req, res) => {
         successResult: false,
         errResult: false
     }
-    res.render('customer/register', vm);
+    var p4 = productRepo.loadBrand();
+    var p5 = productRepo.loadType();
+    Promise.all([p4, p5]).then(([Brand, Type]) => {
+        vm.brand = Brand;
+        vm.type = Type;
+        res.render('customer/register', vm);
+    })
+    
 });
 
 

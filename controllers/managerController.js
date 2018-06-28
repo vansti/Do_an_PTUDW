@@ -61,7 +61,36 @@ router.get('/home', restrict, (req, res) => {
     res.render('manager/home', vm);
 });
 
+router.get('/add_brand_type', restrict, (req, res) => {
+    var vm = {
+        
+    };
+    res.render('manager/add_brand_type', vm);
+});
 
+router.post('/add_brand', restrict, (req, res) => {
+    var Ten_hang = req.body.Ten_hang
+    xu_ly.connectDatabase().query("INSERT INTO hang (Ten_hang) VALUES (?)", [Ten_hang], function (err) {
+        if (err) throw err;
+        var vm = {
+            successResultB: true
+        }
+        res.render('manager/add_brand_type', vm);
+        return;
+    })
+});
+
+router.post('/add_type', restrict, (req, res) => {
+    var Ten_loai = req.body.Ten_loai
+    xu_ly.connectDatabase().query("INSERT INTO loai (Ten_loai) VALUES (?)", [Ten_loai], function (err) {
+        if (err) throw err;
+        var vm = {
+            successResultT: true
+        }
+        res.render('manager/add_brand_type', vm);
+        return;
+    })
+});
 
 router.get('/update_product', restrict, (req, res) => {
     xu_ly.connectDatabase().query("select * from may_anh where Hang = 'Canon'", function (err, rows) {
