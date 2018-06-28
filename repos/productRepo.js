@@ -5,6 +5,16 @@ exports.loadAll = () => {
 	return db.load(sql);
 }
 
+exports.loadBrand = () => {
+	var sql = 'select * from hang';
+	return db.load(sql);
+}
+
+exports.loadType = () => {
+	var sql = 'select * from loai';
+	return db.load(sql);
+}
+
 exports.loadMostviewed = () => {
 	var sql = 'select * from may_anh order by So_luot_xem desc limit 10';
 	return db.load(sql);
@@ -43,3 +53,8 @@ exports.single = Ma_so => {
     var sql = `select * from may_anh where Ma_so = ${Ma_so}`;
     return db.load(sql);
 }
+
+// exports.updateview = Ma_so => {
+//     var sql = `update may_anh set So_luot_xem = So_luot_xem + 1 Where Ma_so = ${Ma_so}`;
+//     return db.save(sql);
+// }
