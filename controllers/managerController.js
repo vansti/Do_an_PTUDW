@@ -1,4 +1,5 @@
 var express = require('express');
+var categoryRepo = require('../repos/categoryRepo');
 var router = express.Router();
 var multer = require('multer');
 var xu_ly = require('../fn/xu_ly');
@@ -62,11 +63,11 @@ router.get('/home', restrict, (req, res) => {
 });
 
 router.get('/add_brand_type', restrict, (req, res) => {
-    var vm = {
-        
-    };
+    var vm = {};
     res.render('manager/add_brand_type', vm);
 });
+
+
 
 router.post('/add_brand', restrict, (req, res) => {
     var Ten_hang = req.body.Ten_hang
@@ -99,11 +100,51 @@ router.get('/update_product', restrict, (req, res) => {
             products: rows,
             managerName: req.session.manager.Ten_quan_ly
         };
-        res.render('manager/update_product', vm);
+        var p4 = categoryRepo.loadBrand();
+        var p5 = categoryRepo.loadType();
+        Promise.all([p4, p5]).then(([Brand, Type]) => {
+            vm.brand = Brand;
+            vm.type = Type;
+            res.render('manager/update_product', vm);
+        })
+
     })
 
+});
+
+router.get('/delete_brand', restrict, (req, res) => {
+    
+    var p1 = categoryRepo.loadBrand();
+    Promise.all([p1]).then(([Brand]) => {
+        var vm = {
+            brand: Brand
+        };
+        res.render('manager/delete_brand', vm);
+    })
 
 });
+
+router.get('/delete_type', restrict, (req, res) => {
+    
+    var p1 = categoryRepo.loadType();
+    Promise.all([p1]).then(([Type]) => {
+        var vm = {
+            type: Type
+        };
+        res.render('manager/delete_type', vm);
+    })
+
+});
+
+router.post('/removeBrand', restrict, (req, res) => {
+    categoryRepo.deleteBrand(req.body.Ma_hang);
+    res.redirect(req.headers.referer);
+})
+
+router.post('/removeType', restrict, (req, res) => {
+    categoryRepo.deleteType(req.body.Ma_loai);
+    res.redirect(req.headers.referer);
+})
 
 router.get('/update_product/:id', restrict, (req, res) => {
     var pid = req.params.id;
@@ -113,7 +154,13 @@ router.get('/update_product/:id', restrict, (req, res) => {
             products: rows,
             managerName: req.session.manager.Ten_quan_ly
         };
-        res.render('manager/update_product', vm)
+        var p4 = categoryRepo.loadBrand();
+        var p5 = categoryRepo.loadType();
+        Promise.all([p4, p5]).then(([Brand, Type]) => {
+            vm.brand = Brand;
+            vm.type = Type;
+            res.render('manager/update_product', vm);
+        })
     })
 
 });
@@ -165,7 +212,14 @@ router.get('/add_product', restrict, (req, res) => {
     var vm = {
         managerName: req.session.manager.Ten_quan_ly
     }
-    res.render('manager/add_product', vm);
+    var p4 = categoryRepo.loadBrand();
+    var p5 = categoryRepo.loadType();
+    Promise.all([p4, p5]).then(([Brand, Type]) => {
+        vm.brand = Brand;
+        vm.type = Type;
+        res.render('manager/add_product', vm);
+    })
+
 
 });
 
@@ -187,6 +241,7 @@ router.post('/add_product', upload.single('Hinh_anh'), (req, res) => {
             successResult: true
         }
         res.render('manager/add_product', vm);
+
         return;
     })
 });
