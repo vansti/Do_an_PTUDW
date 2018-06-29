@@ -40,43 +40,24 @@
     <li class="subMenu open">
         <a> Brand of Product</a>
         <ul>
+            {{#each brand}}
             <li>
-                <a href="/user/products/Canon">
-                    <i class="icon-chevron-right"></i>Canon </a>
+                <a href="/user/products/{{Ten_hang}}">
+                    <i class="icon-chevron-right"></i>{{Ten_hang}} </a>
             </li>
-            <li>
-                <a href="/user/products/Nikon">
-                    <i class="icon-chevron-right"></i>Nikon </a>
-            </li>
-            <li>
-                <a href="/user/products/Sony">
-                    <i class="icon-chevron-right"></i>Sony </a>
-            </li>
-            <li>
-                <a href="/user/products/Fujifilm">
-                    <i class="icon-chevron-right"></i>Fujifilm </a>
-            </li>
-            <li>
-                <a href="/user/products/Olympus">
-                    <i class="icon-chevron-right"></i>Olympus </a>
-            </li>
+            {{/each}}
         </ul>
     </li>
     <li class="subMenu">
         <a> Type of Product</a>
         <ul>
+            {{#each type}}
             <li>
-                <a href="/user/products/Travel">
-                    <i class="icon-chevron-right"></i>Travel Camera </a>
+                <a href="/user/products/{{Ten_loai}}">
+                    <i class="icon-chevron-right"></i>{{Ten_loai}} </a>
             </li>
-            <li>
-                <a href="/user/products/DSLR">
-                    <i class="icon-chevron-right"></i>DSLR Camera </a>
-            </li>
-            <li>
-                <a href="/user/products/Mirrorless">
-                    <i class="icon-chevron-right"></i>Mirrorless Camera </a>
-            </li>
+            {{/each}}
+
         </ul>
     </li>
 </ul>

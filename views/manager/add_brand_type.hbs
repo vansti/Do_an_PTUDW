@@ -60,73 +60,68 @@
 <form id="frmLogout" method="post" action="/manager/logout"></form>
 <ul class="breadcrumb">
     <li style="font-size: x-large">
-        <span class="fa fa-pencil"></span>
-        <b> Edit</b>
+        <img style="width: 20px" src="/themes/images/icons8-bag-brand-24.png">
+        <b> Add Brand</b>
     </li>
 </ul>
 
 <div class="well">
-
-    {{#if check}}
+    {{#if successResultB}}
     <div class="alert alert-success">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong>Success!</strong> Edit successfully.
+        <strong>Success!</strong> Add brand successfully.
     </div>
     {{else}}
+    <form class="form-horizontal" action="/manager/add_brand" method="post">
+        <h4>Brand information</h4>
+        <div class="control-group">
+            <label class="control-label">Name
+            </label>
+            <div class="controls">
+                <input type="text" name="Ten_hang" placeholder="Name of brand" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <input type="submit" class="btn btn-large btn-danger" value="Add">
+            </button>
 
-    <form class="form-horizontal" action="" method="post">
-        {{#with product}}
-        <div class="thumbnail" style="height:270px">
-            <a>
-                <img src="/themes/images/products/{{Hinh_anh}}" style="height:270px">
-            </a>
         </div>
-        <br>
-        <div class="control-group">
-            <label class="control-label">Product ID</label>
-            <div class="controls">
-                <input type="text" id="" name="Ma_so" value="{{Ma_so}}" readonly>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Name</label>
-            <div class="controls">
-                <input type="text" id="" value="{{Ten}}" readonly>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Brand</label>
-            <div class="controls">
-                <input type="text" id="" value="{{Hang}}" readonly>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Type</label>
-            <div class="controls">
-                <input type="text" id="" value="{{Loai}}" readonly>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label">Price</label>
-            <div class="controls">
-                <input type="number" id="" name="Don_gia_ban" value="{{Don_gia_ban}}">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Description</label>
-            <div class="controls">
-                <textarea name="Mo_ta" cols="26" rows="5">{{Mo_ta}}</textarea>
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <input class="btn btn-large btn-success" type="submit" value="Edit" />
-            </div>
-        </div>
-        {{/with}}
     </form>
+    {{/if}}
+</div>
 
+<hr class="soft" />
+
+
+<ul class="breadcrumb">
+    <li style="font-size: x-large">
+        <img style="width: 20px" src="/themes/images/icons8-type-24.png">
+        <b> Add Type</b>
+    </li>
+</ul>
+
+<div class="well">
+    {{#if successResultT}}
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Success!</strong> Add type successfully.
+    </div>
+    {{else}}
+    <form class="form-horizontal" action="/manager/add_type" method="post">
+        <h4>Type information</h4>
+        <div class="control-group">
+            <label class="control-label">Name
+            </label>
+            <div class="controls">
+                <input type="text" name="Ten_loai" placeholder="Name of type" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <input type="submit" class="btn btn-large btn-danger" value="Add">
+            </button>
+
+        </div>
+    </form>
     {{/if}}
 </div>
 <script type="text/javascript" src="/themes/js/jquery-3.1.1.min.js"></script>

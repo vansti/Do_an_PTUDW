@@ -1,5 +1,5 @@
 {{#section 'welcome'}}
-<strong> {{managerName}}</strong> 
+<strong> {{managerName}}</strong>
 {{/section}} {{#section 'menu'}}
 <ul id="topMenu" class="nav pull-right">
     <li class="">
@@ -28,6 +28,12 @@
                     <i class="icon-chevron-right"></i>Update Product</a>
                 <a class="active" href="/manager/add_product">
                     <i class="icon-chevron-right"></i>Add Product</a>
+                <a class="active" href="/manager/add_brand_type">
+                    <i class="icon-chevron-right"></i>Add Brand &#38 Type</a>
+                <a class="active" href="/manager/delete_brand">
+                    <i class="icon-chevron-right"></i>Delete brand</a>
+                <a class="active" href="/manager/delete_type">
+                    <i class="icon-chevron-right"></i>Delete type</a>
             </li>
         </ul>
     </li>
@@ -58,11 +64,10 @@
     </li>
 </ul>
 <div class="btn-group">
-    <a type="button" class="btn btn-primary" href="/manager/update_product/Canon">Canon</a>
-    <a type="button" class="btn btn-primary" href="/manager/update_product/Nikon">Nikon</a>
-    <a type="button" class="btn btn-primary" href="/manager/update_product/Sony">Sony</a>
-    <a type="button" class="btn btn-primary" href="/manager/update_product/Fujifilm">Fujifilm</a>
-    <a type="button" class="btn btn-primary" href="/manager/update_product/Olympus">Olympus</a>
+    {{#each brand}}
+    <a type="button" class="btn btn-primary" href="/manager/update_product/{{Ten_hang}}">{{Ten_hang}}</a>
+    {{/each}}
+
 </div>
 <hr class="soft" />
 
@@ -91,12 +96,12 @@
                     </a>
                 </th>
                 <th>
-                    <a type="button" class="btn btn-danger" onclick="Showconfirm({{Ma_so}},'{{Hang}}')" >
+                    <a type="button" class="btn btn-danger" onclick="Showconfirm({{Ma_so}},'{{Hang}}')">
                         <span class="fa fa-remove"></span>
                     </a>
                 </th>
             </tr>
-            
+
             {{/each}}
         </tbody>
     </table>
@@ -104,11 +109,10 @@
 
 
 <script>
-    function Showconfirm(Ma_so, Hang)
-    {
+    function Showconfirm(Ma_so, Hang) {
         if (confirm("Do you really want to delete this product ?")) {
-            window.location.href = "/manager/delete?id=" + Ma_so +"&brand="+ Hang ;
-        } 
+            window.location.href = "/manager/delete?id=" + Ma_so + "&brand=" + Hang;
+        }
     }
 </script>
 <script type="text/javascript" src="/themes/js/jquery-3.1.1.min.js"></script>

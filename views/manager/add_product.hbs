@@ -28,6 +28,12 @@
                     <i class="icon-chevron-right"></i>Update Product</a>
                 <a class="active" href="/manager/add_product">
                     <i class="icon-chevron-right"></i>Add Product</a>
+                <a class="active" href="/manager/add_brand_type">
+                    <i class="icon-chevron-right"></i>Add Brand &#38 Type</a>
+                <a class="active" href="/manager/delete_brand">
+                    <i class="icon-chevron-right"></i>Delete brand</a>
+                <a class="active" href="/manager/delete_type">
+                    <i class="icon-chevron-right"></i>Delete type</a>
             </li>
         </ul>
     </li>
@@ -88,11 +94,10 @@
             <div class="controls">
                 <select class="span2" name="Hang" required>
                     <option value="">-</option>
-                    <option value="Canon">Canon</option>
-                    <option value="Nikon">Nikon</option>
-                    <option value="Sony">Sony</option>
-                    <option value="Fujifilm">Fujifilm</option>
-                    <option value="Olympus">Olympus</option>
+                    {{#each brand}}
+                    <option value="{{Ten_hang}}">{{Ten_hang}}</option>
+                    {{/each}}
+                    
                 </select>
             </div>
         </div>
@@ -102,9 +107,9 @@
             <div class="controls">
                 <select class="span2" name="Loai" required>
                     <option value="">-</option>
-                    <option value="Travel">Travel</option>
-                    <option value="DSLR">DSLR</option>
-                    <option value="Mirrorless">Mirrorless</option>
+                    {{#each type}}
+                    <option value="{{Ten_loai}}">{{Ten_loai}}</option>
+                    {{/each}}
                 </select>
             </div>
         </div>
