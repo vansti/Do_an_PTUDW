@@ -89,80 +89,42 @@
         <a href="/user/home">Home</a>
         <span class="divider">/</span>
     </li>
-    <li class="active">Update Profile</li>
+    <li>
+        <a href="/user/purchase_history">Purchase history</a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active">Order Details</li>
 </ul>
-<h3> Update Profile </h3>
-<div class="well">
-    {{#if success}}
-    <div class="alert alert-success">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong>Success</strong> Change your profile successfully.
-    </div>
-    {{else}}
-    <form class="form-horizontal" action="profile" method="post">
-        <h4>Your information</h4>
-        {{#with user}}
-        <div class="control-group">
-            <label class="control-label" for="inputFname1">Name
-            </label>
-            <div class="controls">
-                <input type="text" name="Ten_khach_hang" value="{{Ten_khach_hang}}">
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label" for="inputFname1">Gender
-            </label>
-            <div class="controls">
-                <select class="span2" name="Gioi_tinh" value="{{Gioi_tinh}}" required>
-                    <option value="">-</option>
-                    <option value="0">Male</option>
-                    <option value="1">Female</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label" for="input_email">Email
-            </label>
-            <div class="controls">
-                <input type="text" name="Email" value="{{Email}}">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Date of Birth
-            </label>
-            <div class="controls">
-                <input type="date" name="Ngay_sinh" value="{{Ngay_sinh}}">
-            </div>
-        </div>
-
-
-        <div class="control-group">
-            <label class="control-label">Address</label>
-            <div class="controls">
-                <input type="text" name="Dia_chi" value="{{Dia_chi}}" />
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label">Phone </label>
-            <div class="controls">
-                <input type="text" name="So_dien_thoai" value="{{So_dien_thoai}}" />
-            </div>
-        </div>
-
-        <p>
-            <a href="/user/change_password">Change your password?</a>
-
-        <div class="control-group">
-            <div class="controls">
-                <input class="btn btn-large btn-success" type="submit" value="Update" />
-            </div>
-        </div>
-        {{/with}}
-    </form>
-    {{/if}}
+<h3> Order Details
+</h3>
+<hr class="soft" />
+<div class="table-responsive" style="margin-top:30px">
+    <table class="table table-condensed table-bordered table-secondary table-hover table-striped">
+        <thead style="background-color: rgba(19, 14, 14, 0.822);color: beige">
+            <tr>
+                <th>Order ID</th>
+                <th>Name of Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each order_detail}}
+            <tr>
+                <th>
+                    {{Ma_hoa_don}}
+                </th>
+                <th>
+                    {{Ten}}
+                </th>
+                <th>
+                    {{So_luong}}
+                </th>
+                <th>{{number_format Don_gia_ban}} đ</th>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </div>
 <script type="text/javascript" src="/themes/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">

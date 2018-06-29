@@ -24,3 +24,8 @@ exports.deleteBrand = Ma_hang => {
 	var sql = `DELETE FROM hang WHERE Ma_hang = ${Ma_hang}`
 	return db.save(sql);
 }
+
+exports.deleteType = Ma_loai => {
+	var sql = `DELETE FROM loai WHERE Ma_loai = ${Ma_loai}`
+	return db.save(sql);
+}

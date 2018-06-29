@@ -89,36 +89,44 @@
         <a href="/user/home">Home</a>
         <span class="divider">/</span>
     </li>
-    <li class="active">Purchase history</li>
+    <li class="active">Purchase History</li>
 </ul>
-<h3> Purchase history
+<h3> Purchase History
 </h3>
 <hr class="soft" />
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Order Date</th>
-            <th>Status</th>
-            <th>Total Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each order}}
-        <tr>
-            <th>
-                {{Ma_hoa_don}}
-            </th>
-            <th>
-                {{Ngay_dat_hang}}
-            </th>
-            <th class="{{Trang_thai}}"></th>
-            <th>{{number_format Tong_tien}} VND</th>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-
+<div class="table-responsive" style="margin-top:30px">
+    <table class="table table-condensed table-bordered table-secondary table-hover table-striped">
+        <thead style="background-color: rgba(19, 14, 14, 0.822);color: beige">
+            <tr>
+                <th>Order ID</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Total Price</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each order}}
+            <tr>
+                <th>
+                    {{Ma_hoa_don}}
+                </th>
+                <th>
+                    {{Ngay_dat_hang}}
+                </th>
+                <th class="{{Trang_thai}}"></th>
+                <th>{{number_format Tong_tien}} VND</th>
+                <th>
+                    <a type="button" class="btn btn-danger" href="/user/detail_ph?id={{Ma_hoa_don}}">
+                        <span class="icon-eye-open"></span>
+                    </a>
+                </th>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript" src="/themes/js/jquery-3.1.1.min.js"></script>
 <script>
     var trang_thai0 = document.getElementsByClassName("0");
     for (var i = 0; i < trang_thai0.length; i++) {

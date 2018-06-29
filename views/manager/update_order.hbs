@@ -66,10 +66,12 @@
             <tr class="text-primary">
                 <th>Date</th>
                 <th>Order ID</th>
+                <th>Total price</th>
                 <th>Order's Owner</th>
                 <th>Status</th>
                 <th>New status</th>
                 <th>Update</th>
+                <th>Details</th>
             </tr>
         </thead>
         <tbody>
@@ -77,6 +79,7 @@
             <tr>
                 <th>{{Ngay_dat_hang}}</th>
                 <th>{{Ma_hoa_don}}</th>
+                <th>{{number_format Tong_tien}}</th>
                 <th>{{Ten_khach_hang}}</th>
                 <th class="{{Trang_thai}}"></th>
                 <th>
@@ -90,6 +93,11 @@
                 <th> 
                     <a type="button" class="btn btn-danger" onclick="Showconfirm({{Ma_hoa_don}})" >
                         <span class="fa fa-pencil"></span>
+                    </a>
+                </th>
+                <th>
+                    <a type="button" class="btn btn-danger" href="/manager/order_detail?id={{Ma_hoa_don}}">
+                        <span class="icon-eye-open"></span>
                     </a>
                 </th>
             </tr>

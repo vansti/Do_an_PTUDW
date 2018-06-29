@@ -198,10 +198,10 @@ router.post('/addItem', (req, res) => {
     res.redirect(req.headers.referer);
 })
 
-router.get('/cart', (req, res) => {
+router.get('/cart', restrict , (req, res) => {
 
     if (req.session.cart.length == 0) {
-        res.redirect(req.headers.referer);
+        res.redirect('home');
     } else {
         var arr_p = [];
         for (var i = 0; i < req.session.cart.length; i++) {
@@ -276,7 +276,7 @@ router.post('/addOrder', (req, res) => {
 });
 
 
-router.get('/purchase_history', (req, res) => {
+router.get('/purchase_history', restrict , (req, res) => {
     var p1 = orderRepo.loadPurchaseHistory(req.session.user.Ma_khach_hang)
     var p4 = categoryRepo.loadBrand();
     var p5 = categoryRepo.loadType();
@@ -289,7 +289,22 @@ router.get('/purchase_history', (req, res) => {
     })
 });
 
-router.get('/profile', (req, res) => {
+router.get('/detail_ph?', restrict ,(req, res) => {
+    var Ma_hoa_don = req.query.id;
+    var p1 = orderRepo.loadDetail(Ma_hoa_don)
+    var p4 = categoryRepo.loadBrand();
+    var p5 = categoryRepo.loadType();
+    Promise.all([p1, p4, p5]).then(([Order_detail, Brand, Type]) => {
+        var vm = {};
+        vm.brand = Brand;
+        vm.type = Type;
+        vm.order_detail = Order_detail
+        res.render('user/detail_ph', vm)
+    })
+});
+
+
+router.get('/profile', restrict , (req, res) => {
     var p1 = userRepo.loadUser(req.session.user.Ma_khach_hang)
     var p4 = categoryRepo.loadBrand();
     var p5 = categoryRepo.loadType();
@@ -301,6 +316,43 @@ router.get('/profile', (req, res) => {
         res.render('user/profile', vm);
     })
 });
+
+router.get('/change_password', restrict , (req, res) => {
+    var p4 = categoryRepo.loadBrand();
+    var p5 = categoryRepo.loadType();
+    Promise.all([p4, p5]).then(([Brand, Type]) => {
+        var vm = {};
+        vm.brand = Brand;
+        vm.type = Type;
+        res.render('user/change_password', vm);
+    })
+})
+
+router.post('/change_password', restrict , (req, res) => {
+    var confirm_password = SHA256(req.body.confirm_password).toString()
+    if(confirm_password == req.session.user.Mat_khau)      
+    {
+        var new_password = SHA256(req.body.new_password).toString()
+        var Ma_khach_hang = req.session.user.Ma_khach_hang
+        
+        var sql = "update khach_hang set Mat_khau = ? where Ma_khach_hang = ?"
+        xu_ly.connectDatabase().query(sql, [new_password, Ma_khach_hang], function (err, rows) {
+            var vm = {
+                success: true
+            }
+            res.render('user/change_password', vm);
+            return;
+        })
+        
+    }
+    else
+    {
+        var vm = {
+            error: true
+        }
+        res.render('user/change_password', vm);
+    }
+})
 
 router.post('/profile', (req, res) => {
     const userdata = [

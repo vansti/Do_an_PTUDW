@@ -176,8 +176,16 @@ router.get('/edit?', restrict, (req, res) => {
         };
         res.render('manager/edit', vm)
     })
+});
 
-
+router.get('/order_detail?', restrict ,(req, res) => {
+    var Ma_hoa_don = req.query.id;
+    var p1 = orderRepo.loadDetail(Ma_hoa_don)
+    Promise.all([p1]).then(([Order_detail]) => {
+        var vm = {};
+        vm.order_detail = Order_detail
+        res.render('manager/order_detail', vm)
+    })
 });
 
 router.post('/edit', (req, res) => {
